@@ -11,47 +11,48 @@ namespace Spitali.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class FieldsController : ControllerBase
+    public class DoctorsController : ControllerBase
     {
         private readonly SpitalsContext _context;
 
-        public FieldsController(SpitalsContext context)
+        public DoctorsController(SpitalsContext context)
         {
             _context = context;
         }
 
-        // GET: api/Fields
+        // GET: api/Doctors
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Fields>>> GetFields()
+        public async Task<ActionResult<IEnumerable<Doctor>>> GetDoctors()
         {
-            return await _context.Fields.ToListAsync();
+            var obj= await _context.Doctors.ToListAsync();
+            return obj;
         }
 
-        // GET: api/Fields/5
+        // GET: api/Doctors/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Fields>> GetFields(int id)
+        public async Task<ActionResult<Doctor>> GetDoctor(int id)
         {
-            var fields = await _context.Fields.FindAsync(id);
+            var doctor = await _context.Doctors.FindAsync(id);
 
-            if (fields == null)
+            if (doctor == null)
             {
                 return NotFound();
             }
 
-            return fields;
+            return doctor;
         }
 
-        // PUT: api/Fields/5
+        // PUT: api/Doctors/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutFields(int id, Fields fields)
+        public async Task<IActionResult> PutDoctor(int id, Doctor doctor)
         {
-            if (id != fields.Id)
+            if (id != doctor.DoctorId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(fields).State = EntityState.Modified;
+            _context.Entry(doctor).State = EntityState.Modified;
 
             try
             {
@@ -59,7 +60,7 @@ namespace Spitali.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!FieldsExists(id))
+                if (!DoctorExists(id))
                 {
                     return NotFound();
                 }
@@ -72,36 +73,36 @@ namespace Spitali.Controllers
             return NoContent();
         }
 
-        // POST: api/Fields
+        // POST: api/Doctors
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Fields>> PostFields(Fields fields)
+        public async Task<ActionResult<Doctor>> PostDoctor(Doctor doctor)
         {
-            _context.Fields.Add(fields);
+            _context.Doctors.Add(doctor);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetFields", new { id = fields.Id }, fields);
+            return CreatedAtAction("GetDoctor", new { id = doctor.DoctorId }, doctor);
         }
 
-        // DELETE: api/Fields/5
+        // DELETE: api/Doctors/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteFields(int id)
+        public async Task<IActionResult> DeleteDoctor(int id)
         {
-            var fields = await _context.Fields.FindAsync(id);
-            if (fields == null)
+            var doctor = await _context.Doctors.FindAsync(id);
+            if (doctor == null)
             {
                 return NotFound();
             }
 
-            _context.Fields.Remove(fields);
+            _context.Doctors.Remove(doctor);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool FieldsExists(int id)
+        private bool DoctorExists(int id)
         {
-            return _context.Fields.Any(e => e.Id == id);
+            return _context.Doctors.Any(e => e.DoctorId == id);
         }
     }
 }

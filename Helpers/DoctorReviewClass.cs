@@ -8,7 +8,8 @@ namespace Spitali
 	public class DoctorReviewDataObject
 	{
 		public int DoctorId { get; set; }
-		public double StarReview { get; set; }
-		public List<string> Comments { get; set; }
+		public double StarReview { get; set; } =
+			0.0;
+		public List<string> Comments { get; set; } = new List<string>() { { "" } };
 	}
 }

@@ -27,7 +27,8 @@ namespace Spitali.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Department>>> GetDepartments()
         {
-            return await _context.Departments.ToListAsync();
+            var obj= await _context.Departments.ToListAsync();
+            return obj;
         }
 
         [HttpGet("{depid}/institution/{insid}")]
@@ -46,6 +47,7 @@ namespace Spitali.Controllers
                 docSingle.Doctor = doc;
                 docSingle.Reviews = objq.Where(x => x.DoctorId == doc.DoctorId).FirstOrDefault
                     ();
+                if (docSingle.Reviews == null) docSingle.Reviews = new DoctorReviewDataObject();
                 docList.Add(docSingle);
             }
 

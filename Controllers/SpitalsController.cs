@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using Spitali.Helpers;
 using Spitali.Models;
 
 namespace Spitali.Controllers
@@ -103,5 +107,44 @@ namespace Spitali.Controllers
         {
             return _context.Spitals.Any(e => e.SpitalId == id);
         }
+
+        [HttpGet("login/{email}/{password}")]
+        public async Task<ActionResult<bool>> login(string email, string password)
+        {
+
+            User user = new User();
+            user.Email = email;
+            user.Password = password;
+
+            HttpClient client = new HttpClient();
+            var myContent = JsonConvert.SerializeObject(user);
+            var buffer = System.Text.Encoding.UTF8.GetBytes(myContent);
+            var byteContent = new ByteArrayContent(buffer);
+            byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            HttpResponseMessage response = await client.PostAsync("http://localhost:26133/api/Users/login", byteContent);
+
+            string responseBody = await response.Content.ReadAsStringAsync();
+            return responseBody.ToLower() == "true";
+        }
+
+        //api/Spitals/rate/doctor/' + doctorId + "/star/+ starRate + '/comment/' + comment,
+        [HttpGet("rate/doctor/{doctorId}/star/{starRate}/comment/{comment}")]
+        public async Task<ActionResult<bool>> reviewSent(int doctorId, int starRate, string comment)
+        {
+            ReviewHelper review = new ReviewHelper();
+            review.Comment = comment;
+            review.DoctorId = doctorId;
+            review.StarRate = starRate;
+            HttpClient client = new HttpClient();
+            var myContent = JsonConvert.SerializeObject(review);
+            var buffer = System.Text.Encoding.UTF8.GetBytes(myContent);
+            var byteContent = new ByteArrayContent(buffer);
+            byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+            HttpResponseMessage response = await client.PostAsync("http://localhost:26133/api/StarReviews", byteContent);
+
+            string responseBody = await response.Content.ReadAsStringAsync();
+            return responseBody.ToLower() == "true";
+        }
+
     }
 }

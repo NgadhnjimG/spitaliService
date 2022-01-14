@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "10uKJ/KjxADjSb5OvbH3l7pQ6Maem7mrcVErFXDLpgEI9NF8GCgwYZq/jsf45VnOYM7v+fQ0tKEuLusKFl9Jzg==",
+  "dgSpecHash": "eYuDq41jC/QCfxL8OEynmchRCtIP4yDHpunAnqFa7WGgsPwBDE77qcNZlSmEx28kVhxJ9UiCq0kvctnxQ7e5wQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\PC\\source\\repos\\E.H\\Spitali\\Spitali\\Spitali\\Spitali.csproj",
+  "projectFilePath": "C:\\Users\\PC\\source\\repos\\Mjeket\\Spitali\\Spitali\\Spitali\\Spitali.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\PC\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\PC\\.nuget\\packages\\microsoft.aspnetcore.html.abstractions\\2.2.0\\microsoft.aspnetcore.html.abstractions.2.2.0.nupkg.sha512",

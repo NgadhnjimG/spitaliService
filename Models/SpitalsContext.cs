@@ -21,7 +21,7 @@ namespace Spitali.Models
         public virtual DbSet<Doctor> Doctors { get; set; }
         public virtual DbSet<HospitalName> HospitalNames { get; set; }
         public virtual DbSet<Spital> Spitals { get; set; }
-        public virtual DbSet<Fields> Fields { get; set; }
+   
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
