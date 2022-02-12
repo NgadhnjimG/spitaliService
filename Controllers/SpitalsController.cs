@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Spitali.Helpers;
 using Spitali.Models;
+using Spitali.Services;
 
 namespace Spitali.Controllers
 {
@@ -18,10 +19,12 @@ namespace Spitali.Controllers
     public class SpitalsController : ControllerBase
     {
         private readonly SpitalsContext _context;
+        private IAuthService _authService;
 
-        public SpitalsController(SpitalsContext context)
+        public SpitalsController(SpitalsContext context, IAuthService authService)
         {
             _context = context;
+            _authService = authService;
         }
 
         // GET: api/Spitals
@@ -32,6 +35,7 @@ namespace Spitali.Controllers
         }
 
         // GET: api/Spitals/5
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<Spital>> GetSpital(int id)
         {
@@ -44,6 +48,7 @@ namespace Spitali.Controllers
 
             return spital;
         }
+
 
         // PUT: api/Spitals/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -121,10 +126,12 @@ namespace Spitali.Controllers
             var buffer = System.Text.Encoding.UTF8.GetBytes(myContent);
             var byteContent = new ByteArrayContent(buffer);
             byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-            HttpResponseMessage response = await client.PostAsync("http://localhost:26133/api/Users/login", byteContent);
+            HttpResponseMessage user = await client.PostAsync("http://localhost:26133/api/Users/login", byteContent);
+            var res = _authService.generateJwtToken(user);
 
-            string responseBody = await response.Content.ReadAsStringAsync();
-            return responseBody.ToLower() == "true";
+            // string responseBody = await response.Content.ReadAsStringAsync();
+            // return responseBody.ToLower() == "true";
+            return Ok(res);
         }
 
         //api/Spitals/rate/doctor/' + doctorId + "/star/+ starRate + '/comment/' + comment,
